@@ -41,11 +41,23 @@
     <p>{{price2}}만원</p>
     <button @click="index[2]++">허위매물 신고</button> <span>신고수 : {{index[2]}}</span>
   </div> -->
+
+  <div id="app">
+    <h1>To-Do List</h1>
+    <to-do-form @todo-added="addToDo"></to-do-form>
+    <ul>
+      <li v-for="item in ToDoItems" :key="item.id">
+        <to-do-item :label="item.label" :done="item.done" :id="item.id"></to-do-item>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
 import data from './data.js';
-
+import ToDoItem from './components/ToDoItem.vue';
+import uniqueId from 'lodash.uniqueid';
+import ToDoForm from './components/ToDoForm.vue';
 
 export default {
   name: 'App',
@@ -58,15 +70,24 @@ export default {
       price2 : 70,
       colorStyle : 'color : red',
       products : ['역삼동원룸', '천호동 원룸', '마포구 원룸'],
-      menu : ['Home', 'Shop', 'About']
+      menu : ['Home', 'Shop', 'About'],
+      ToDoItems: [
+        { id: uniqueId('todo-'), label: 'Learn Vue', done: false },
+        { id: uniqueId('todo-'), label: 'Create a Vue project with the CLI', done: true },
+        { id: uniqueId('todo-'), label: 'Have fun', done: true },
+        { id: uniqueId('todo-'), label: 'Create a to-do list', done: false }
+      ]
     }
   },
   methods : {
-    
+    addToDo(toDoLabel) {
+      this.ToDoItems.push({id:uniqueId('todo-'), label:toDoLabel, done:false})
+    }
   },
 
   components: {
-    
+    ToDoItem,
+    ToDoForm
   }
 }
 </script>
